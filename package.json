@@ -8,7 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite review"
+    "build-production": "vite build --mode production",
+    "preview": "vite preview"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,12 @@
   },
   "homepage": "https://github.com/SolveigRebnord/fullstack-app-supabase#readme",
   "devDependencies": {
+    "autoprefixer": "^10.4.13",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.2.4",
     "vite": "^4.1.1"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.7.0"
   }
 }
