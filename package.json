@@ -1,0 +1,26 @@
+{
+  "name": "fullstack-app-supabase",
+  "version": "1.0.0",
+  "description": "Fullstack app using supabase",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite review"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SolveigRebnord/fullstack-app-supabase.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SolveigRebnord/fullstack-app-supabase/issues"
+  },
+  "homepage": "https://github.com/SolveigRebnord/fullstack-app-supabase#readme",
+  "devDependencies": {
+    "vite": "^4.1.1"
+  }
+}
