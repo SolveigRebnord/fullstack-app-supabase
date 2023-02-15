@@ -1,14 +1,18 @@
-import path from "path";
+import {resolve} from "path"
 
 
 export default {
-    root: path.resolve(__dirname, "src"),
+    root: resolve(__dirname, 'src'),
     build:{
         outDir: "../dist",
         rollupOptions:{
             input:{
-                index: path.resolve(__dirname, "src/index.html"),
-            }
-        }
-    }
+                index: resolve(__dirname, "src/index.html"),
+                signup: resolve(__dirname, "src/signup.html"),
+                login: resolve(__dirname, "src/login.html"),
+                login: resolve(__dirname, "src/profile.html"),
+            },
+        },
+    },
+    envDir: '../'
   }

@@ -55,15 +55,14 @@ logInForm.addEventListener("submit", function (event) {
 
 const signupUser = async(name, email, password) => {
 
-
+/*
     const { data, error } = await adminAuthClient.createUser({
         email: `${email}`,
         password: `${password}`,
         email_confirm: true
       })
-      
+  */   
 
-    /*
 const { data, error } = await supabase.auth.signUp (
     
     { email: `${email}`,
@@ -74,7 +73,7 @@ const { data, error } = await supabase.auth.signUp (
         }
       }
     }
-  )*/
+  )
 
   if (error) {
     console.log(error)
