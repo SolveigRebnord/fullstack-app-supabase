@@ -7,6 +7,15 @@ const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_KEY;
 const SERVICE_ROLE_KEY = import.meta.env.VITE_SERVICE_ROLE_KEY;
 
+const newBtn = document.getElementById("new-item-btn");
+const newForm = document.getElementById("new-item-form");
+const title = document.getElementById("title");
+const postBody = document.getElementById("desc");
+const tags = document.getElementById("tags")
+const logOutBtn = document.getElementById("sign-out-btn")
+
+
+
 
 //const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
@@ -22,38 +31,8 @@ const supabaseA = createClient(SUPABASE_URL, SERVICE_ROLE_KEY, {
   
   const adminAuthClient = supabaseA.auth.admin
 
-const username = document.getElementById("username")
-const email = document.getElementById("email")
-const password = document.getElementById("password")
-const signUpForm = document.getElementById("sign-up-form")
-
-
-const logInEmail = document.getElementById("email_login")
-const logInpassword = document.getElementById("password_login")
-const logInForm = document.getElementById("log-in-form")
-
-const logOutBtn = document.getElementById("sign-out-btn")
-
-
-signUpForm.addEventListener("submit", function (event) {
-    event.preventDefault();
-    let userName = username.value;
-    let userEmail = email.value;
-    let userPassword = password.value;
-    signupUser(userName, userEmail, userPassword)
-
-})
-
-logInForm.addEventListener("submit", function (event) {
-    event.preventDefault();
-    let userEmail = email.value;
-    let userPassword = password.value;
-
-    logInUser(userEmail,userPassword)
-
-})
-
-const signupUser = async(name, email, password) => {
+  const { data: { user } } = await supabase.auth.getUser()
+  console.log(user.id);
 
 /*
     const { data, error } = await adminAuthClient.createUser({
@@ -63,79 +42,91 @@ const signupUser = async(name, email, password) => {
       })
   */   
 
-const { data, error } = await supabase.auth.signUp (
-    
-    { email: `${email}`,
-      password: `${password}`,
-      options: {
-        data: {
-          username: `${name}`
-        }
-      }
-    }
-  )
 
-  if (error) {
-    console.log(error)
-  }
-  else {
-    console.log(data)
-  }
-}
-
-
-logInForm.addEventListener("submit", function (event) {
-    event.preventDefault();
-    let email = logInEmail.value;
-    let password = logInpassword.value;
-
-    logInUser(email, password)
-
-})
-
-const logInUser = async (email,password) => {
-
-    const { data, error } = await supabase.auth.signInWithPassword(
-        {
-          email: `${email}`,
-          password: `${password}`
-        }
-      )
-      if (error) {
-        console.log(error)
-      }
-      else {
-        const { id, err } = await supabase.auth.mfa.enroll({
-            factorType: 'totp'
-          })
-          console.log(err)
-        console.log(data + "yey")
-
-      }
-    }
-    
-    
-
-logOutBtn.addEventListener("click", async function(e) {
-e.preventDefault();
-const { error } = await supabase.auth.signOut()
-console.log("sign out")
-})
-
-
+/*
 const getRec = async () => {
-    let { data, error } = await supabase.from('').select('*')
+    let { data, error } = await supabase.from('posts').select('*')
     if (error) console.log('error', error)
     else console.log(data)
   }
+
+getRec();
 
 
 
 
 const { data, error } = await supabase
-.from('working')
-.select('*')
+  .from('users')
+  .select('*')
+
+
+const usersFeed = document.getElementById("users-feed")
+for (let {username, email, id} of data) {
+  usersFeed.innerHTML += 
+  `<div>
+    <h3>${username}</h3>
+    <p>${email}</p>
+    <button class="bg-pink-500 subscribe-btn" id="${id}">Follow</button>
+    </div>
+    `
+}
+
+let followBtns = document.getElementsByClassName("subscribe-btn");
+//console.log(followBtns);
+for (let btn of followBtns) {
+  btn.addEventListener("click", async function (e) {
+    let followId = btn.id;
+    console.log(followId)
+  })
+}*/
+
+
+const { data, err } = await supabase
+.from('users')
+.select('followers')
+.eq('id', user.id)
 console.log(data)
+
+
+ 
+  newBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    newForm.classList.toggle("hidden")
+  })
+
+
+  newForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    let recTitle = title.value;
+    let post_body = desc.value;
+    let recTags = tags.value;
+    let creator = user.id
+   newRecipe(recTitle, post_body, recTags, creator)
+  })
+
+  async function newRecipe(title, post_body, tags, creator) {
+    let { data, error } = await supabase
+    .rpc('new_post', {
+      creator,
+      post_body, 
+      tags, 
+      title
+    })
+  
+  if (error) console.error(error)
+  else console.log(data)
+  }
+
+
+logOutBtn.addEventListener("click", async function(e) {
+  e.preventDefault();
+  const { error } = await supabase.auth.signOut()
+  console.log("sign out")
+  window.location = "login.html"
+  })
+  
+
+
 
 
 

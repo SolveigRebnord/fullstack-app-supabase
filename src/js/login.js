@@ -15,7 +15,7 @@ const logInForm = document.getElementById("log-in-form")
 
 const logOutBtn = document.getElementById("sign-out-btn")
 
-
+const logInGithub = document.getElementById("github-login")
 
 logInForm.addEventListener("submit", function (event) {
     event.preventDefault();
@@ -30,24 +30,34 @@ const logInUser = async (email,password) => {
 
     const { data, error } = await supabase.auth.signInWithPassword(
         {
-          email: `${email}`,
-          password: `${password}`
+          email: email,
+          password: password
         }
       )
       if (error) {
         console.log(error)
       }
       else {
-        const { id, err } = await supabase.auth.mfa.enroll({
-            factorType: 'totp'
-          })
-          console.log(err)
-        console.log(data + "yey")
+        window.location = 'index.html'
 
       }
+}
+
+
+//0b8e056e7f19f392c518 client ID
+//3a789a57ac21b6b0a7acccb47f969a5b57a1628f secret
+    
+logInGithub.addEventListener("click", async function (e) {
+
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'github',
+    options: {
+      redirectTo: 'http://localhost:5173/index.html'
     }
-    
-    
+    })
+})
+
+
 
 logOutBtn.addEventListener("click", async function(e) {
 e.preventDefault();

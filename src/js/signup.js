@@ -48,11 +48,13 @@ const signupUser = async(name, email, password) => {
 
 const { data, error } = await supabase.auth.signUp (
     
-    { email: `${email}`,
-      password: `${password}`,
+    { 
+      email: email,
+      password: password,
+      phone: '+4798872552',
       options: {
         data: {
-          username: `${name}`
+          username: name
         }
       }
     }

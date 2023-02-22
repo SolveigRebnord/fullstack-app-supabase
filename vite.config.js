@@ -10,7 +10,6 @@ export default {
                 index: resolve(__dirname, "src/index.html"),
                 signup: resolve(__dirname, "src/signup.html"),
                 login: resolve(__dirname, "src/login.html"),
-                login: resolve(__dirname, "src/profile.html"),
             },
         },
     },
